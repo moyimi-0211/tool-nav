@@ -4,273 +4,341 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI工具导航 — 发现最好的AI工具</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  
+
   :root {
-    --bg: #0a0a0f;
-    --surface: #131320;
-    --surface-hover: #1a1a2e;
-    --border: #1e1e33;
-    --text: #e4e4ed;
-    --text-dim: #8888a6;
-    --accent: #6366f1;
-    --accent-glow: rgba(99,102,241,0.25);
-    --green: #22c55e;
-    --orange: #f59e0b;
-    --pink: #ec4899;
-    --radius: 12px;
-    --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+    --color-primary: #2D2A32;
+    --color-bg: #FFFFFF;
+    --color-light: #EFF0EF;
+    --color-accent: #6366F1;
+    --radius-sm: 24px;
+    --radius-lg: 40px;
+    --radius-pill: 100px;
+    --transition: 0.2s ease;
   }
 
   html { scroll-behavior: smooth; }
-  
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    font-family: 'Noto Sans SC', system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--color-bg);
+    color: var(--color-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Grid background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: 
-      linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Glow orbs */
-  .glow-orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(180px);
-    opacity: 0.15;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .glow-orb-1 { width: 500px; height: 500px; background: var(--accent); top: -200px; right: -100px; }
-  .glow-orb-2 { width: 400px; height: 400px; background: var(--pink); bottom: -200px; left: -100px; }
-
-  /* Layout */
+  /* ========== Container ========== */
   .container {
-    position: relative;
-    z-index: 1;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 40px;
   }
 
-  /* Nav */
+  /* ========== Nav ========== */
   .nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(20px) saturate(180%);
-    background: rgba(10,10,15,0.8);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-inner {
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    padding: 0 40px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
   }
   .nav-logo {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #818cf8, #c084fc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: 0.5px;
   }
   .nav-cta {
     font-size: 13px;
-    padding: 7px 18px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-dim);
+    font-weight: 500;
+    padding: 10px 22px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-light);
+    background: var(--color-bg);
+    color: var(--color-primary);
     cursor: pointer;
     transition: var(--transition);
     font-family: inherit;
+    text-decoration: none;
   }
-  .nav-cta:hover { border-color: var(--accent); color: var(--text); }
+  .nav-cta:hover {
+    border-color: var(--color-primary);
+  }
 
-  /* Hero */
+  /* ========== Hero ========== */
   .hero {
-    padding: 100px 0 64px;
+    padding: 120px 0 80px;
     text-align: center;
     position: relative;
+    overflow: hidden;
   }
-  .hero-tag {
-    display: inline-block;
-    font-size: 12px;
-    padding: 4px 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(99,102,241,0.3);
-    background: rgba(99,102,241,0.08);
-    color: #a5b4fc;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
+
+  /* AI watermark */
+  .hero-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: min(280px, 22vw);
+    font-weight: 900;
+    color: var(--color-light);
+    line-height: 1;
+    letter-spacing: -12px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    white-space: nowrap;
   }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
   .hero h1 {
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: -1.5px;
-    line-height: 1.15;
-    margin-bottom: 16px;
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -2px;
+    color: var(--color-primary);
+    margin-bottom: 20px;
   }
-  .hero h1 span {
-    background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #6366f1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+
+  .hero-cursor {
+    display: inline-block;
+    font-weight: 300;
+    animation: blink 1s step-end infinite;
+    margin-left: 4px;
   }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
   .hero-desc {
-    font-size: 17px;
-    color: var(--text-dim);
-    max-width: 540px;
-    margin: 0 auto 32px;
+    font-size: 18px;
+    color: var(--color-primary);
+    opacity: 0.6;
+    max-width: 520px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
   }
+
   .hero-stats {
     display: flex;
     justify-content: center;
-    gap: 48px;
-    margin-top: 40px;
+    gap: 64px;
+    margin-bottom: 48px;
   }
   .hero-stat-val {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 700;
-    font-variant-numeric: tabular-nums;
     letter-spacing: -1px;
+    color: var(--color-primary);
   }
   .hero-stat-lbl {
     font-size: 13px;
-    color: var(--text-dim);
-    margin-top: 2px;
+    color: var(--color-primary);
+    opacity: 0.5;
+    margin-top: 4px;
   }
 
-  /* Filter bar */
+  .hero-cta {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 18px 44px;
+    border-radius: var(--radius-pill);
+    background: var(--color-primary);
+    color: var(--color-bg);
+    text-decoration: none;
+    transition: var(--transition);
+    font-family: inherit;
+  }
+  .hero-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(45,42,50,0.15);
+  }
+
+  /* ========== Featured Section ========== */
+  .featured-section {
+    padding: 0 0 48px;
+  }
+  .featured-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-primary);
+    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .featured-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .featured-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-light);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+  }
+  .featured-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(45,42,50,0.06);
+    border-color: var(--color-primary);
+  }
+  .featured-badge {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 14px;
+    border-radius: var(--radius-pill);
+    background: var(--color-light);
+    color: var(--color-primary);
+    opacity: 0.6;
+  }
+  .featured-name {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+  .featured-company {
+    font-size: 14px;
+    color: var(--color-primary);
+    opacity: 0.5;
+    margin-bottom: 16px;
+  }
+  .featured-desc {
+    font-size: 16px;
+    color: var(--color-primary);
+    opacity: 0.6;
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 16px;
+  }
+  .featured-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .featured-category {
+    font-size: 13px;
+    color: var(--color-primary);
+    opacity: 0.5;
+  }
+
+  /* ========== Filter Bar ========== */
+  .filter-section {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    padding: 0;
+  }
   .filter-bar {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 20px 0 32px;
-    position: sticky;
-    top: 60px;
-    z-index: 50;
-    background: rgba(10,10,15,0.75);
-    backdrop-filter: blur(16px);
+    flex-wrap: nowrap;
+    gap: 24px;
+    padding: 16px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .filter-bar::-webkit-scrollbar { display: none; }
   .filter-btn {
     font-size: 13px;
-    padding: 7px 16px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-dim);
+    font-weight: 500;
+    color: var(--color-primary);
+    opacity: 0.5;
+    background: none;
+    border: none;
     cursor: pointer;
     transition: var(--transition);
     font-family: inherit;
     white-space: nowrap;
+    padding: 0 0 6px;
+    border-bottom: 2px solid transparent;
   }
-  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn:hover {
+    opacity: 0.8;
+  }
   .filter-btn.active {
-    background: rgba(99,102,241,0.15);
-    border-color: var(--accent);
-    color: #a5b4fc;
+    opacity: 1;
+    border-bottom-color: var(--color-primary);
   }
   .filter-count {
     margin-left: auto;
     font-size: 13px;
-    color: var(--text-dim);
+    color: var(--color-primary);
+    opacity: 0.4;
+    white-space: nowrap;
   }
 
-  /* Tool grid */
+  /* ========== Tool Grid ========== */
+  .tool-section {
+    padding: 16px 0 80px;
+  }
   .tool-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    padding-bottom: 80px;
   }
-
   .tool-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--color-bg);
+    border: 1px solid var(--color-light);
+    border-radius: var(--radius-sm);
     padding: 24px;
     cursor: pointer;
     transition: var(--transition);
-    position: relative;
-    overflow: hidden;
     text-decoration: none;
     color: inherit;
     display: block;
   }
   .tool-card:hover {
-    background: var(--surface-hover);
-    border-color: rgba(99,102,241,0.3);
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(99,102,241,0.08);
-  }
-  .tool-card:hover::before {
-    opacity: 1;
-  }
-  .tool-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--pink));
-    opacity: 0;
-    transition: opacity 0.3s;
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 24px rgba(45,42,50,0.04);
   }
   .tool-card-header {
     display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    margin-bottom: 12px;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
   }
-  .tool-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-    font-weight: 700;
-  }
-  .tool-icon.llm { background: rgba(99,102,241,0.15); color: #a5b4fc; }
-  .tool-icon.image { background: rgba(236,72,153,0.15); color: #f9a8d4; }
-  .tool-icon.video { background: rgba(245,158,11,0.15); color: #fcd34d; }
-  .tool-icon.office { background: rgba(34,197,94,0.15); color: #86efac; }
-  .tool-icon.code { background: rgba(14,165,233,0.15); color: #7dd3fc; }
-  .tool-icon.search { background: rgba(168,85,247,0.15); color: #c4b5fd; }
-
   .tool-name {
     font-size: 16px;
     font-weight: 600;
-    margin-bottom: 2px;
+    color: var(--color-primary);
   }
   .tool-company {
     font-size: 12px;
-    color: var(--text-dim);
+    color: var(--color-primary);
+    opacity: 0.5;
   }
   .tool-desc {
     font-size: 13px;
-    color: var(--text-dim);
+    color: var(--color-primary);
+    opacity: 0.5;
     line-height: 1.55;
     margin-bottom: 12px;
     display: -webkit-box;
@@ -284,179 +352,423 @@
     gap: 8px;
     flex-wrap: wrap;
   }
-  .tool-tag {
+  .tool-category {
     font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.05);
-    color: var(--text-dim);
-  }
-  .tool-tag.free { background: rgba(34,197,94,0.1); color: var(--green); }
-  .tool-tag.paid { background: rgba(245,158,11,0.1); color: var(--orange); }
-  .tool-tag.sponsored {
-    background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(236,72,153,0.15));
-    color: #c084fc;
+    color: var(--color-primary);
+    opacity: 0.4;
   }
 
-  /* Sponsored highlight card */
-  .tool-card.sponsored {
-    border-color: rgba(99,102,241,0.25);
-    background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(236,72,153,0.03));
-  }
-  .sponsored-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
+  /* Pricing tags */
+  .tag {
     font-size: 10px;
+    font-weight: 500;
     padding: 3px 10px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(236,72,153,0.2));
-    color: #c4b5fd;
-    letter-spacing: 0.5px;
+    border-radius: var(--radius-pill);
+    display: inline-block;
+  }
+  .tag-free {
+    background: var(--color-bg);
+    color: var(--color-primary);
+    opacity: 0.6;
+    border: 1px solid var(--color-light);
+  }
+  .tag-paid {
+    background: var(--color-primary);
+    color: var(--color-bg);
   }
 
-  /* CTA section */
+  /* ========== CTA Section ========== */
   .cta-section {
     text-align: center;
     padding: 80px 0 100px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-light);
   }
   .cta-section h2 {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
+    color: var(--color-primary);
     margin-bottom: 12px;
     letter-spacing: -0.5px;
   }
   .cta-section p {
-    font-size: 15px;
-    color: var(--text-dim);
-    max-width: 480px;
+    font-size: 16px;
+    color: var(--color-primary);
+    opacity: 0.5;
+    max-width: 440px;
     margin: 0 auto 28px;
+    line-height: 1.7;
   }
   .cta-btn {
     display: inline-block;
-    font-size: 14px;
-    padding: 12px 32px;
-    border-radius: 24px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: #fff;
-    border: none;
-    cursor: pointer;
+    font-size: 15px;
     font-weight: 600;
+    padding: 18px 40px;
+    border-radius: var(--radius-pill);
+    background: var(--color-primary);
+    color: var(--color-bg);
+    text-decoration: none;
     transition: var(--transition);
     font-family: inherit;
-    text-decoration: none;
-    box-shadow: 0 4px 20px var(--accent-glow);
   }
   .cta-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 30px var(--accent-glow);
+    box-shadow: 0 8px 24px rgba(45,42,50,0.15);
   }
 
-  /* Footer */
+  /* ========== Footer ========== */
   .footer {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-light);
     padding: 32px 0;
     text-align: center;
     font-size: 13px;
-    color: var(--text-dim);
+    color: var(--color-primary);
+    opacity: 0.4;
   }
   .footer a {
-    color: var(--accent);
+    color: var(--color-primary);
     text-decoration: none;
   }
-  .footer a:hover { text-decoration: underline; }
-
-  /* Empty state */
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-dim);
-    font-size: 15px;
-    grid-column: 1 / -1;
+  .footer a:hover {
+    opacity: 0.7;
   }
 
-  /* Responsive */
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(45,42,50,0.4); backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--color-bg); border-radius: var(--radius-lg);
+    width: 90%; max-width: 480px; padding: 48px 40px 40px;
+    position: relative; box-shadow: 0 24px 64px rgba(45,42,50,0.12);
+    animation: modalIn 0.25s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 20px;
+    background: none; border: none; font-size: 20px; cursor: pointer;
+    color: var(--color-primary); opacity: 0.3; padding: 4px 8px; line-height: 1;
+    font-family: inherit; transition: var(--transition);
+  }
+  .modal-close:hover { opacity: 0.7; }
+  .modal h3 {
+    font-size: 22px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.5px;
+  }
+  .modal-subtitle { font-size: 14px; opacity: 0.5; margin-bottom: 28px; line-height: 1.6; }
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block; font-size: 12px; font-weight: 500; opacity: 0.5;
+    margin-bottom: 6px; letter-spacing: 0.5px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 12px 16px; border-radius: var(--radius-sm);
+    border: 1px solid var(--color-light); font-size: 14px;
+    font-family: inherit; color: var(--color-primary);
+    background: var(--color-bg); transition: var(--transition);
+    outline: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--color-primary); }
+  .form-textarea { min-height: 80px; resize: vertical; }
+  .form-select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%232D2A32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+  .form-submit {
+    width: 100%; padding: 14px; border-radius: var(--radius-pill); font-size: 15px;
+    font-weight: 600; background: var(--color-primary); color: var(--color-bg);
+    border: none; cursor: pointer; font-family: inherit; margin-top: 8px;
+    transition: var(--transition);
+  }
+  .form-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(45,42,50,0.15); }
+  .form-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .form-hint {
+    font-size: 12px; opacity: 0.35; text-align: center; margin-top: 16px; line-height: 1.6;
+  }
+  .modal-success { display: none; text-align: center; padding: 20px 0; }
+  .modal-success.show { display: block; }
+  .modal-success-icon { font-size: 40px; margin-bottom: 12px; }
+  .modal-success h3 { margin-bottom: 8px; }
+  .modal-success p { font-size: 14px; opacity: 0.5; line-height: 1.7; }
+  .modal-form.hide { display: none; }
+
+  /* Ghosts */
+  .hero-ghosts { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .ghost {
+    position: absolute;
+    animation: ghostFloat var(--float-dur, 6s) ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s);
+  }
+  @keyframes ghostFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .ghost-body {
+    width: 62px; height: 78px;
+    background: #f0f0f0;
+    border-radius: 50% 50% 0 0 / 42% 42% 0 0;
+    position: relative;
+    opacity: 0.85;
+  }
+  .ghost-eye {
+    position: absolute;
+    width: 10px; height: 11px;
+    background: #1a1a1a;
+    border-radius: 50%;
+    top: 24px;
+    transition: transform 0.12s ease-out;
+  }
+  .ghost-eye.left  { left: 17px; }
+  .ghost-eye.right { right: 17px; }
+
+  /* ========== Screenshot Scroll ========== */
+  .scroll-section { padding: 32px 0 48px; overflow: hidden; position: relative; }
+  .scroll-row { margin-bottom: 28px; overflow: hidden; position: relative; }
+  .scroll-row:last-child { margin-bottom: 0; }
+  .scroll-track { display: flex; width: max-content; will-change: transform; }
+  .scroll-track-left { animation: scrollLeft 80s linear infinite; }
+  .scroll-track-right { animation: scrollRight 70s linear infinite; }
+  @keyframes scrollLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes scrollRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .scroll-track:hover { animation-play-state: paused; }
+
+  .screenshot-card {
+    flex-shrink: 0; width: 480px; margin-right: 24px;
+    border-radius: 22px; overflow: hidden;
+    box-shadow: 0 2px 16px rgba(45,42,50,0.05);
+    transition: box-shadow 0.4s, transform 0.3s;
+    cursor: pointer; background: #fff;
+  }
+  .screenshot-card:hover {
+    box-shadow: 0 12px 40px rgba(45,42,50,0.10);
+    transform: translateY(-4px);
+  }
+  .sc-browser {
+    height: 40px; background: #f8f7f5; display: flex; align-items: center;
+    padding: 0 14px; gap: 7px; border-bottom: 1px solid #f0ede8;
+  }
+  .sc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .sc-dot:nth-child(1) { background: #E8C4B8; }
+  .sc-dot:nth-child(2) { background: #D4C8A8; }
+  .sc-dot:nth-child(3) { background: #B8C8B4; }
+  .sc-url {
+    margin-left: 10px; font-size: 11px; color: #b8b0a8;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .sc-body {
+    height: 300px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 10px;
+    position: relative; overflow: hidden;
+  }
+  .sc-body::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 70% 25%, rgba(255,255,255,0.18) 0%, transparent 55%);
+  }
+  .sc-body::after {
+    content: ''; position: absolute;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .sc-name {
+    font-size: 36px; font-weight: 700; color: #fff;
+    position: relative; z-index: 1; letter-spacing: -1px;
+  }
+  .sc-company {
+    font-size: 15px; color: rgba(255,255,255,0.65);
+    position: relative; z-index: 1; letter-spacing: 0.5px;
+  }
+  .sc-category-tag {
+    font-size: 11px; color: rgba(255,255,255,0.45);
+    position: relative; z-index: 1;
+    padding: 4px 14px; border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px; margin-top: 2px;
+  }
+
+  /* Scroll ghost eyes */
+  .scroll-eyes { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+  .scroll-ghost-eye {
+    position: absolute; width: 14px; height: 16px;
+    background: #fff; border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(45,42,50,0.06);
+    opacity: 0.07;
+    animation: eyeFloat var(--edur, 6s) ease-in-out infinite;
+    animation-delay: var(--edelay, 0s);
+  }
+  @keyframes eyeFloat {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-4px) translateX(2px); }
+    50% { transform: translateY(1px) translateX(-1px); }
+    75% { transform: translateY(-2px) translateX(1px); }
+  }
+  .scroll-ghost-pupil {
+    width: 5px; height: 6px; background: var(--color-primary);
+    border-radius: 50%; position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) translate(var(--px, 0px), var(--py, 0px));
+    transition: transform 0.15s ease-out;
+  }
+
+  /* ========== Responsive ========== */
+  @media (max-width: 1024px) {
+    .tool-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 56px; }
+  }
+
   @media (max-width: 768px) {
-    .hero { padding: 64px 0 40px; }
-    .hero h1 { font-size: 32px; }
+    .container { padding: 0 20px; }
+    .nav { padding: 0 20px; }
+    .hero { padding: 80px 0 48px; }
+    .hero h1 { font-size: 40px; letter-spacing: -1px; }
+    .hero-desc { font-size: 16px; }
     .hero-stats { gap: 32px; }
     .hero-stat-val { font-size: 24px; }
+    .featured-card { padding: 28px; }
+    .featured-name { font-size: 26px; }
+    .featured-badge { top: 28px; right: 28px; }
     .tool-grid { grid-template-columns: 1fr; }
-    .filter-bar { gap: 6px; padding: 12px 0 20px; }
-    .filter-btn { font-size: 12px; padding: 5px 12px; }
+    .filter-bar { gap: 16px; }
+    .filter-btn { font-size: 12px; }
+    .cta-section h2 { font-size: 24px; }
+    .cta-section { padding: 56px 0 72px; }
   }
 </style>
 </head>
 <body>
 
-<div class="glow-orb glow-orb-1"></div>
-<div class="glow-orb glow-orb-2"></div>
-
 <!-- Nav -->
 <nav class="nav">
-  <div class="nav-inner">
-    <div class="nav-logo">AI·导航</div>
-    <button class="nav-cta" onclick="document.getElementById('cta-section').scrollIntoView({behavior:'smooth'})">🚀 提交工具</button>
-  </div>
+  <div class="nav-logo">AI·导航</div>
+  <button class="nav-cta" id="nav-submit-btn">提交工具</button>
 </nav>
 
 <!-- Hero -->
-<section class="hero container">
-  <div class="hero-tag">✦ 中文 AI 工具导航</div>
-  <h1>发现最好的 <span>AI 工具</span></h1>
-  <p class="hero-desc">手动精选 30+ 个 AI 工具，覆盖写作、绘图、视频、编程、办公 —— 不收录未经验证的垃圾工具。</p>
-  <div class="hero-stats">
-    <div>
-      <div class="hero-stat-val" id="count-total">30</div>
-      <div class="hero-stat-lbl">精选工具</div>
+<section class="hero">
+  <div class="hero-watermark">AI</div>
+  <div class="hero-ghosts" id="hero-ghosts"></div>
+  <div class="hero-content container">
+    <h1>发现最好的<br>AI 工具<span class="hero-cursor">▐</span></h1>
+    <p class="hero-desc">手动精选 30+ 个 AI 工具，覆盖写作、绘图、视频、编程、办公。不收录未经验证的垃圾工具。</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val" id="count-total">30</div>
+        <div class="hero-stat-lbl">精选工具</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">6</div>
+        <div class="hero-stat-lbl">分类</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">周更</div>
+        <div class="hero-stat-lbl">持续收录</div>
+      </div>
     </div>
-    <div>
-      <div class="hero-stat-val">6</div>
-      <div class="hero-stat-lbl">分类</div>
-    </div>
-    <div>
-      <div class="hero-stat-val">周更</div>
-      <div class="hero-stat-lbl">持续收录</div>
-    </div>
+    <a href="#tools" class="hero-cta">探索工具 ↓</a>
   </div>
 </section>
 
-<!-- Filter bar -->
-<div class="container">
-  <div class="filter-bar" id="filter-bar">
-    <button class="filter-btn active" data-category="all">全部</button>
-    <button class="filter-btn" data-category="llm">🧠 大语言模型</button>
-    <button class="filter-btn" data-category="image">🎨 AI 绘图</button>
-    <button class="filter-btn" data-category="video">🎬 AI 视频</button>
-    <button class="filter-btn" data-category="office">📋 AI 办公</button>
-    <button class="filter-btn" data-category="code">💻 AI 编程</button>
-    <button class="filter-btn" data-category="search">🔍 AI 搜索</button>
-    <span class="filter-count" id="filter-count">30 个工具</span>
+<!-- Screenshot Scroll Section -->
+<section class="scroll-section" id="screenshot-showcase">
+  <div class="scroll-row">
+    <div class="scroll-track scroll-track-left" id="track-top"></div>
+  </div>
+  <div class="scroll-row">
+    <div class="scroll-track scroll-track-right" id="track-bottom"></div>
+  </div>
+</section>
+
+<!-- Featured Tools -->
+<section class="featured-section container" id="tools">
+  <div class="featured-label">赞助推荐</div>
+  <div class="featured-cards" id="featured-cards"></div>
+</section>
+
+<!-- Filter Bar -->
+<div class="filter-section">
+  <div class="container">
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-btn active" data-category="all">全部</button>
+      <button class="filter-btn" data-category="llm">大语言模型</button>
+      <button class="filter-btn" data-category="image">AI 绘图</button>
+      <button class="filter-btn" data-category="video">AI 视频</button>
+      <button class="filter-btn" data-category="office">AI 办公</button>
+      <button class="filter-btn" data-category="code">AI 编程</button>
+      <button class="filter-btn" data-category="search">AI 搜索</button>
+      <span class="filter-count" id="filter-count">30 个工具</span>
+    </div>
   </div>
 </div>
 
-<!-- Tool grid -->
-<div class="container">
+<!-- Tool Grid -->
+<section class="tool-section container">
   <div class="tool-grid" id="tool-grid"></div>
-</div>
+</section>
 
 <!-- CTA -->
-<section class="cta-section container" id="cta-section">
+<section class="cta-section container" id="cta">
   <h2>你的 AI 工具还没被收录？</h2>
   <p>免费提交，审核通过后上线。想要置顶曝光？赞助位开放中。</p>
-  <a href="#" class="cta-btn">提交工具 →</a>
+  <button class="cta-btn" id="cta-submit-btn">提交工具 →</button>
 </section>
 
 <!-- Footer -->
 <footer class="footer container">
-  <p>AI·导航 © 2026 · 人工精选，拒绝 AI 生成垃圾 · <a href="#">关于我们</a></p>
+  AI·导航 © 2026 · 人工精选，拒绝 AI 生成垃圾 · <a href="#">关于我们</a>
 </footer>
 
+<!-- Submit Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <div class="modal-form" id="modal-form">
+      <h3>提交 AI 工具</h3>
+      <p class="modal-subtitle">填写以下信息，审核通过后上线。赞助置顶请备注。</p>
+      <div class="form-group">
+        <label class="form-label">工具名称 *</label>
+        <input class="form-input" id="form-name" placeholder="例如：DeepSeek" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">官网链接 *</label>
+        <input class="form-input" id="form-url" placeholder="https://…" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">分类</label>
+        <select class="form-select" id="form-category">
+          <option value="">请选择</option>
+          <option value="llm">大语言模型</option>
+          <option value="image">AI 绘图</option>
+          <option value="video">AI 视频</option>
+          <option value="office">AI 办公</option>
+          <option value="code">AI 编程</option>
+          <option value="search">AI 搜索</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">一句话介绍 *</label>
+        <textarea class="form-textarea" id="form-desc" placeholder="用一句话描述这个工具的核心亮点…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">你的联系方式</label>
+        <input class="form-input" id="form-contact" placeholder="微信 / 邮箱（方便通知审核结果）" autocomplete="off">
+      </div>
+      <button class="form-submit" id="form-submit-btn">提交审核</button>
+      <p class="form-hint">审核通常 24 小时内完成</p>
+    </div>
+    <div class="modal-success" id="modal-success">
+      <div class="modal-success-icon">✅</div>
+      <h3>提交成功</h3>
+      <p>我们会在 24 小时内审核，结果将通过你留下的联系方式通知。</p>
+    </div>
+  </div>
+</div>
+
 <script>
-// Tool data
+// === Tool Data ===
 const tools = [
-  // === 大语言模型 ===
   { name: "DeepSeek", company: "深度求索", desc: "国产开源大模型标杆，推理能力极强，API价格极低，中文场景表现出色。", category: "llm", pricing: "free", url: "https://chat.deepseek.com" },
   { name: "Kimi", company: "月之暗面", desc: "超长上下文（200万字），擅长处理长文档、论文、合同等大文本场景。", category: "llm", pricing: "free", url: "https://kimi.moonshot.cn" },
   { name: "通义千问", company: "阿里巴巴", desc: "阿里系大模型，代码能力和多模态表现均衡，有丰富的开源模型矩阵。", category: "llm", pricing: "free", url: "https://tongyi.aliyun.com" },
@@ -465,92 +777,246 @@ const tools = [
   { name: "智谱清言", company: "智谱AI", desc: "GLM系列模型，清华系团队，代码和逻辑推理在开源模型中领先。", category: "llm", pricing: "free", url: "https://chatglm.cn" },
   { name: "GPT-4o", company: "OpenAI", desc: "全球最强多模态模型，文本、图像、语音理解一体化，生态最完善。", category: "llm", pricing: "paid", sponsored: true, url: "https://chat.openai.com" },
   { name: "Claude", company: "Anthropic", desc: "长文本理解和安全性领先，200K上下文窗口，适合深度分析和代码审查。", category: "llm", pricing: "paid", url: "https://claude.ai" },
-
-  // === AI 绘图 ===
   { name: "Midjourney", company: "Midjourney Inc.", desc: "AI绘画天花板，艺术感最强，v6版本写实和创意能力再次突破想象。", category: "image", pricing: "paid", sponsored: true, url: "https://www.midjourney.com" },
   { name: "即梦", company: "字节跳动", desc: "国产AI绘画工具，出图质量高且审美在线，支持文生图和图生图。", category: "image", pricing: "free", url: "https://jimeng.jianying.com" },
   { name: "可灵", company: "快手", desc: "AI图片和视频生成双修，图生视频能力突出，支持多种风格。", category: "image", pricing: "free", url: "https://kling.kuaishou.com" },
   { name: "Stable Diffusion", company: "Stability AI", desc: "开源AI绘画之王，社区生态最丰富，可本地部署，自由度最高。", category: "image", pricing: "free", url: "https://stablediffusionweb.com" },
   { name: "DALL·E 3", company: "OpenAI", desc: "与ChatGPT深度集成，文字渲染能力最强，能准确呈现复杂prompt。", category: "image", pricing: "paid", url: "https://openai.com/dall-e-3" },
-
-  // === AI 视频 ===
   { name: "Runway", company: "Runway ML", desc: "AI视频生成先驱，Gen-3模型质量极高，电影级画面和运动表现。", category: "video", pricing: "paid", url: "https://runwayml.com" },
   { name: "Sora", company: "OpenAI", desc: "文字生成视频的范式级产品，物理世界模拟和长视频一致性颠覆行业。", category: "video", pricing: "paid", url: "https://sora.com" },
   { name: "Pika", company: "Pika Labs", desc: "轻量AI视频工具，操作简单出片快，适合社交媒体短视频创作。", category: "video", pricing: "free", url: "https://pika.art" },
   { name: "剪映", company: "字节跳动", desc: "国民级视频剪辑工具，AI字幕、AI配音、AI调色让小白也能剪大片。", category: "video", pricing: "free", url: "https://www.jianying.com" },
   { name: "CapCut", company: "ByteDance", desc: "剪映国际版，全球下载量第一的视频编辑App，AI功能领先。", category: "video", pricing: "free", url: "https://www.capcut.com" },
-
-  // === AI 办公 ===
   { name: "Notion AI", company: "Notion", desc: "笔记+数据库+AI写作三合一，知识管理工作流的终极选择。", category: "office", pricing: "paid", url: "https://www.notion.so/product/ai" },
   { name: "飞书智能助手", company: "字节跳动", desc: "飞书内嵌AI，会议纪要自动生成、文档总结、数据分析一句话搞定。", category: "office", pricing: "free", url: "https://www.feishu.cn" },
   { name: "Gamma", company: "Gamma Tech", desc: "AI一键生成PPT、文档和网页，设计审美在线，比传统PPT快10倍。", category: "office", pricing: "free", url: "https://gamma.app" },
   { name: "讯飞听见", company: "科大讯飞", desc: "中文语音转文字最强，实时字幕、会议记录、录音整理一键搞定。", category: "office", pricing: "paid", url: "https://www.iflyrec.com" },
   { name: "腾讯文档AI", company: "腾讯", desc: "与微信生态打通，AI辅助写作和表格数据处理，协作办公利器。", category: "office", pricing: "free", url: "https://docs.qq.com" },
-
-  // === AI 编程 ===
   { name: "GitHub Copilot", company: "GitHub", desc: "AI编程助手鼻祖，VSCode原生集成，代码补全和Chat模式覆盖全流程。", category: "code", pricing: "paid", url: "https://github.com/features/copilot" },
   { name: "Cursor", company: "Anysphere", desc: "AI-first代码编辑器，基于VSCode但更激进，Composer模式可整文件重构。", category: "code", pricing: "paid", sponsored: true, url: "https://cursor.sh" },
   { name: "通义灵码", company: "阿里巴巴", desc: "国产AI编程插件，免费且支持中文注释和需求理解，新手友好。", category: "code", pricing: "free", url: "https://tongyi.aliyun.com/lingma" },
   { name: "Windsurf", company: "Codeium", desc: "AI IDE新秀，Cascade模式可自主分析代码库上下文，比Copilot更智能。", category: "code", pricing: "paid", url: "https://codeium.com/windsurf" },
-
-  // === AI 搜索 ===
   { name: "秘塔AI搜索", company: "秘塔科技", desc: "国产AI搜索引擎，无广告直达答案，学术搜索和深度分析能力突出。", category: "search", pricing: "free", url: "https://metaso.cn" },
   { name: "Perplexity", company: "Perplexity AI", desc: "AI搜索全球标杆，答案带完整引用来源，Pro版可选Claude/GPT模型。", category: "search", pricing: "free", url: "https://www.perplexity.ai" },
   { name: "天工AI搜索", company: "昆仑万维", desc: "国产多模态AI搜索，支持图文视频搜索，研究模式和速读模式切换。", category: "search", pricing: "free", url: "https://www.tiangong.cn" },
 ];
 
-// Render
-const grid = document.getElementById('tool-grid');
-const filterCount = document.getElementById('filter-count');
-const countTotal = document.getElementById('count-total');
-let activeCategory = 'all';
+const categoryNames = {
+  llm: "大语言模型",
+  image: "AI 绘图",
+  video: "AI 视频",
+  office: "AI 办公",
+  code: "AI 编程",
+  search: "AI 搜索"
+};
 
-function renderTools(category) {
-  const filtered = category === 'all' ? tools : tools.filter(t => t.category === category);
-  
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-state">该分类暂无工具，稍后更新 🚧</div>';
-  } else {
-    grid.innerHTML = filtered.map((t, i) => {
-      const catNames = { llm:'大语言模型', image:'AI绘图', video:'AI视频', office:'AI办公', code:'AI编程', search:'AI搜索' };
-      const catIcons = { llm:'🧠', image:'🎨', video:'🎬', office:'📋', code:'💻', search:'🔍' };
-      
-      return `
-        <a href="${t.url}" target="_blank" rel="noopener" class="tool-card${t.sponsored ? ' sponsored' : ''}">
-          ${t.sponsored ? '<span class="sponsored-badge">赞助</span>' : ''}
-          <div class="tool-card-header">
-            <div class="tool-icon ${t.category}">${catIcons[t.category]}</div>
-            <div>
-              <div class="tool-name">${t.name}</div>
-              <div class="tool-company">${t.company}</div>
-            </div>
-          </div>
-          <div class="tool-desc">${t.desc}</div>
-          <div class="tool-meta">
-            <span class="tool-tag">${catNames[t.category]}</span>
-            <span class="tool-tag ${t.pricing}">${t.pricing === 'free' ? '免费' : '付费'}</span>
-          </div>
-        </a>
-      `;
-    }).join('');
-  }
-  
-  filterCount.textContent = `${filtered.length} 个工具`;
-  if (category === 'all') countTotal.textContent = tools.length;
+// === Render ===
+function renderFeatured() {
+  const container = document.getElementById('featured-cards');
+  const sponsored = tools.filter(t => t.sponsored);
+  container.innerHTML = sponsored.map(t => `
+    <a href="${t.url}" target="_blank" class="featured-card">
+      <span class="featured-badge">赞助</span>
+      <div class="featured-name">${t.name}</div>
+      <div class="featured-company">${t.company}</div>
+      <div class="featured-desc">${t.desc}</div>
+      <div class="featured-meta">
+        <span class="tag ${t.pricing === 'free' ? 'tag-free' : 'tag-paid'}">${t.pricing === 'free' ? '免费' : '付费'}</span>
+        <span class="featured-category">${categoryNames[t.category]}</span>
+      </div>
+    </a>
+  `).join('');
 }
 
-// Filter buttons
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
+function renderTools(filterCategory = 'all') {
+  const grid = document.getElementById('tool-grid');
+  const filtered = filterCategory === 'all' ? tools : tools.filter(t => t.category === filterCategory);
+  document.getElementById('filter-count').textContent = `${filtered.length} 个工具`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty-state">没有找到匹配的工具</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(t => `
+    <a href="${t.url}" target="_blank" class="tool-card">
+      <div class="tool-card-header">
+        <span class="tool-name">${t.name}</span>
+        <span class="tool-company">${t.company}</span>
+      </div>
+      <div class="tool-desc">${t.desc}</div>
+      <div class="tool-meta">
+        <span class="tag ${t.pricing === 'free' ? 'tag-free' : 'tag-paid'}">${t.pricing === 'free' ? '免费' : '付费'}</span>
+        <span class="tool-category">${categoryNames[t.category]}</span>
+      </div>
+    </a>
+  `).join('');
+}
+
+// === Filter ===
+document.getElementById('filter-bar').addEventListener('click', (e) => {
+  if (e.target.classList.contains('filter-btn')) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    activeCategory = this.dataset.category;
-    renderTools(activeCategory);
+    e.target.classList.add('active');
+    renderTools(e.target.dataset.category);
+  }
+});
+
+// === Init ===
+// Modal
+const modalOverlay = document.getElementById('modal-overlay');
+const modalForm = document.getElementById('modal-form');
+const modalSuccess = document.getElementById('modal-success');
+
+function openModal() {
+  modalOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  modalForm.classList.remove('hide');
+  modalSuccess.classList.remove('show');
+  document.getElementById('form-name').value = '';
+  document.getElementById('form-url').value = '';
+  document.getElementById('form-category').value = '';
+  document.getElementById('form-desc').value = '';
+  document.getElementById('form-contact').value = '';
+  document.getElementById('form-submit-btn').disabled = false;
+  document.getElementById('form-submit-btn').textContent = '提交审核';
+  setTimeout(() => document.getElementById('form-name').focus(), 200);
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('nav-submit-btn').addEventListener('click', openModal);
+document.getElementById('cta-submit-btn').addEventListener('click', openModal);
+document.getElementById('modal-close').addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+});
+
+document.getElementById('form-submit-btn').addEventListener('click', () => {
+  const name = document.getElementById('form-name').value.trim();
+  const url = document.getElementById('form-url').value.trim();
+  const desc = document.getElementById('form-desc').value.trim();
+
+  if (!name) { document.getElementById('form-name').focus(); return; }
+  if (!url || !/^https?:\/\/.+/.test(url)) { document.getElementById('form-url').focus(); return; }
+  if (!desc) { document.getElementById('form-desc').focus(); return; }
+
+  const btn = document.getElementById('form-submit-btn');
+  btn.disabled = true;
+  btn.textContent = '提交中…';
+
+  // Simulate submission (replace with real endpoint later)
+  setTimeout(() => {
+    modalForm.classList.add('hide');
+    modalSuccess.classList.add('show');
+  }, 800);
+});
+
+// === Ghosts ===
+const ghostContainer = document.getElementById('hero-ghosts');
+const ghostPositions = [
+  { left: '6%', top: '22%', dur: '6s', delay: '0s', scale: 1 },
+  { left: '12%', top: '62%', dur: '7s', delay: '1.2s', scale: 0.9 },
+  { left: '78%', top: '18%', dur: '5.5s', delay: '0.6s', scale: 1.05 },
+  { left: '84%', top: '55%', dur: '6.5s', delay: '1.8s', scale: 0.95 },
+  { left: '92%', top: '30%', dur: '5s', delay: '3s', scale: 0.85 },
+  { left: '35%', top: '80%', dur: '7.5s', delay: '0.3s', scale: 0.8 },
+  { left: '55%', top: '75%', dur: '5.8s', delay: '2s', scale: 0.9 },
+  { left: '4%', top: '42%', dur: '4.8s', delay: '2.5s', scale: 0.75 },
+];
+
+const ghosts = ghostPositions.map(pos => {
+  const el = document.createElement('div');
+  el.className = 'ghost';
+  el.style.cssText = `left:${pos.left};top:${pos.top};--float-dur:${pos.dur};--float-delay:${pos.delay};transform:scale(${pos.scale})`;
+  el.innerHTML = `
+    <div class="ghost-body">
+      <div class="ghost-eye left"></div>
+      <div class="ghost-eye right"></div>
+    </div>
+  `;
+  ghostContainer.appendChild(el);
+  return { el, leftEye: el.querySelector('.ghost-eye.left'), rightEye: el.querySelector('.ghost-eye.right') };
+});
+
+document.addEventListener('mousemove', (e) => {
+  const mx = e.clientX, my = e.clientY;
+  const maxOffset = 2.5;
+  ghosts.forEach(g => {
+    const rect = g.el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = mx - cx, dy = my - cy;
+    const dist = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+    const ex = (dx / dist) * maxOffset;
+    const ey = (dy / dist) * maxOffset;
+    g.leftEye.style.transform = `translate(${ex}px, ${ey}px)`;
+    g.rightEye.style.transform = `translate(${ex}px, ${ey}px)`;
   });
 });
 
-// Init
-renderTools('all');
+// === Screenshot Scroll ===
+const brandColors = {
+  'DeepSeek':       ['#C4CFDA', '#A4B1C2'],
+  'GPT-4o':         ['#BCC8B4', '#9DAE96'],
+  'Midjourney':     ['#C8B8D2', '#AE98BC'],
+  'Cursor':         ['#C8C4C0', '#AAA6A2'],
+  'Kimi':           ['#C0CBD8', '#A0ADBE'],
+  'Claude':         ['#D4BCBC', '#C0A0A0'],
+  'Perplexity':     ['#B8CCC4', '#98B0A6'],
+  'Runway':         ['#CAC2BA', '#ACA49C'],
+  'Gamma':          ['#C4BCD6', '#A69CBA'],
+  'Notion AI':      ['#BAB6B4', '#9C9896'],
+  '可灵':            ['#D4BAB0', '#C09C90'],
+  '剪映':            ['#D0B8C0', '#B89AA4'],
+  '即梦':            ['#BCC8DA', '#9CACBE'],
+  '通义千问':         ['#D4CAB4', '#C0B298'],
+  '秘塔AI搜索':       ['#BEBED2', '#A0A0B8'],
+  'Sora':           ['#C6C0BA', '#A8A29C'],
+  '豆包':            ['#BCC8AA', '#9CAE8C'],
+  'Stable Diffusion': ['#C4BAD2', '#A89CB8'],
+  'GitHub Copilot':   ['#B8B4B2', '#9A9694'],
+  'Windsurf':       ['#C4B6C6', '#A898AC'],
+};
+
+function makeCard(t) {
+  const [c1, c2] = brandColors[t.name] || ['#2D2A32', '#444'];
+  const host = t.url ? new URL(t.url).hostname.replace('www.','') : '';
+  return `
+    <a href="${t.url}" target="_blank" class="screenshot-card">
+      <div class="sc-browser">
+        <span class="sc-dot"></span><span class="sc-dot"></span><span class="sc-dot"></span>
+        <span class="sc-url">${host}</span>
+      </div>
+      <div class="sc-body" style="background:linear-gradient(135deg,${c1},${c2})">
+        <div class="sc-name">${t.name}</div>
+        <div class="sc-company">${t.company}</div>
+      </div>
+    </a>
+  `;
+}
+
+function buildScrollTracks() {
+  const top = tools.slice(0, 10);
+  const bottom = tools.slice(10, 20);
+  const trackTop = document.getElementById('track-top');
+  const trackBottom = document.getElementById('track-bottom');
+  const topHTML = [...top, ...top].map(makeCard).join('');
+  const bottomHTML = [...bottom, ...bottom].map(makeCard).join('');
+  trackTop.innerHTML = topHTML;
+  trackBottom.innerHTML = bottomHTML;
+}
+
+buildScrollTracks();
+
+renderFeatured();
+renderTools();
 </script>
 
 </body>
