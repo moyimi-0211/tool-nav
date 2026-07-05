@@ -1045,7 +1045,7 @@ document.getElementById('form-submit-btn').addEventListener('click', () => {
   const contact = document.getElementById('form-contact').value.trim() || '未填写';
 
   // 飞书自定义机器人 Webhook（在飞书群 → 群设置 → 群机器人 → 添加自定义机器人 → 复制地址）
-  const FEISHU_WEBHOOK = 'YOUR_WEBHOOK_URL_HERE';
+  const FEISHU_WEBHOOK = 'https://open.feishu.cn/open-apis/bot/v2/hook/1a435135-8663-439e-bba9-b1ee635fe96f';
 
   const payload = {
     msg_type: 'text',
