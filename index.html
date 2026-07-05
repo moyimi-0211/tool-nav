@@ -1064,7 +1064,7 @@ document.getElementById('form-submit-btn').addEventListener('click', () => {
   });
 
   // sendBeacon 绕过 CORS 限制，浏览器后台可靠投递
-  var blob = new Blob([payload], { type: 'application/json' });
+  var blob = new Blob([payload], { type: 'application/json; charset=utf-8' });
   var ok = navigator.sendBeacon(FEISHU_WEBHOOK, blob);
 
   if (ok) {
