@@ -1041,11 +1041,49 @@ document.getElementById('form-submit-btn').addEventListener('click', () => {
   btn.disabled = true;
   btn.textContent = '提交中…';
 
-  // Simulate submission (replace with real endpoint later)
-  setTimeout(() => {
-    modalForm.classList.add('hide');
-    modalSuccess.classList.add('show');
-  }, 800);
+  const category = document.getElementById('form-category').value || '未选择';
+  const contact = document.getElementById('form-contact').value.trim() || '未填写';
+
+  // 飞书自定义机器人 Webhook（在飞书群 → 群设置 → 群机器人 → 添加自定义机器人 → 复制地址）
+  const FEISHU_WEBHOOK = 'YOUR_WEBHOOK_URL_HERE';
+
+  const payload = {
+    msg_type: 'text',
+    content: {
+      text: [
+        '🔔 新工具提交',
+        '工具名称：' + name,
+        '工具链接：' + url,
+        '分类：' + category,
+        '一句话介绍：' + desc,
+        '联系方式：' + contact,
+        '——',
+        '提交时间：' + new Date().toLocaleString('zh-CN', { hour12: false })
+      ].join('\n')
+    }
+  };
+
+  fetch(FEISHU_WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.code === 0) {
+      modalForm.classList.add('hide');
+      modalSuccess.classList.add('show');
+    } else {
+      btn.disabled = false;
+      btn.textContent = '提交失败，请重试';
+      console.error('Feishu webhook error:', data);
+    }
+  })
+  .catch(err => {
+    btn.disabled = false;
+    btn.textContent = '提交失败，请重试';
+    console.error('Webhook request failed:', err);
+  });
 });
 
 // === Ghosts ===
