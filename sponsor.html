@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>赞助定价 — AI工具导航</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --color-primary: #2D2A32;
+    --color-bg: #FFFFFF;
+    --color-light: #EFF0EF;
+    --color-accent: #6366F1;
+    --radius-sm: 24px;
+    --radius-lg: 40px;
+    --radius-pill: 100px;
+    --transition: 0.2s ease;
+  }
+
+  html { scroll-behavior: smooth; cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSczMicgaGVpZ2h0PSczNicgdmlld0JveD0nMCAwIDMyIDM2Jz4KICA8cGF0aCBkPSdNMTYgMkM4LjMgMiAyIDcuOCAyIDE1djEzYzAgMiAuNyAzIDEuNSAybDEuNS0yIDIgMi41IDItMiAyIDIuNSAyLTIgMiAyLjUgMi0yIDIgMi41IDItMiAyIDIuNSAxLjUtMmMuOCAxIDEuNSAwIDEuNS0yVjE1YzAtNy4yLTYuMy0xMy0xNC0xM3onIGZpbGw9JyNmMGYwZjAnLz4KICA8Y2lyY2xlIGN4PScxMScgY3k9JzE0JyByPScyLjInIGZpbGw9JyMxYTFhMWEnLz4KICA8Y2lyY2xlIGN4PScyMScgY3k9JzE0JyByPScyLjInIGZpbGw9JyMxYTFhMWEnLz4KPC9zdmc+) 16 12, auto; }
+  a, button, [role="button"], input[type="submit"], input[type="button"], .clickable { cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSczMicgaGVpZ2h0PSczNicgdmlld0JveD0nMCAwIDMyIDM2Jz4KICA8cGF0aCBkPSdNMTYgMkM4LjMgMiAyIDcuOCAyIDE1djEzYzAgMiAuNyAzIDEuNSAybDEuNS0yIDIgMi41IDItMiAyIDIuNSAyLTIgMiAyLjUgMi0yIDIgMi41IDItMiAyIDIuNSAxLjUtMmMuOCAxIDEuNSAwIDEuNS0yVjE1YzAtNy4yLTYuMy0xMy0xNC0xM3onIGZpbGw9JyNmMGYwZjAnLz4KICA8Y2lyY2xlIGN4PScxMScgY3k9JzE0JyByPScyLjInIGZpbGw9JyMxYTFhMWEnLz4KICA8Y2lyY2xlIGN4PScyMScgY3k9JzE0JyByPScyLjInIGZpbGw9JyMxYTFhMWEnLz4KPC9zdmc+) 16 12, pointer; }
+
+  body {
+    font-family: 'Noto Sans SC', system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--color-bg);
+    color: var(--color-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+  /* Nav */
+  .nav {
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .nav-logo { font-size: 16px; font-weight: 600; color: var(--color-primary); letter-spacing: 0.5px; text-decoration: none; }
+  .nav-links { display: flex; gap: 24px; align-items: center; }
+  .nav-link { font-size: 14px; color: var(--color-primary); text-decoration: none; opacity: 0.6; transition: opacity var(--transition); }
+  .nav-link:hover { opacity: 1; }
+  .nav-link.active { opacity: 1; font-weight: 600; }
+
+  /* Hero */
+  .pricing-hero {
+    text-align: center;
+    padding: 80px 40px 60px;
+  }
+  .pricing-hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .pricing-hero p {
+    font-size: 18px;
+    color: #777;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Pricing Cards */
+  .pricing-grid {
+    display: flex;
+    gap: 24px;
+    max-width: 1080px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+    align-items: stretch;
+  }
+  .pricing-card {
+    flex: 1;
+    background: #fff;
+    border: 1.5px solid #E8E8E8;
+    border-radius: var(--radius-lg);
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .pricing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.06);
+  }
+  .pricing-card.featured {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 24px rgba(99,102,241,0.12);
+    position: relative;
+  }
+  .pricing-card.featured::before {
+    content: '最受欢迎';
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 16px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+  }
+
+  .tier-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .tier-subtitle { font-size: 13px; color: #999; margin-bottom: 24px; }
+
+  .tier-price {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+  .tier-price sub { font-size: 16px; font-weight: 400; color: #999; }
+  .tier-cycle { font-size: 13px; color: #999; margin-bottom: 28px; }
+
+  .tier-features {
+    list-style: none;
+    flex: 1;
+    margin-bottom: 28px;
+  }
+  .tier-features li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+  .tier-features li::before {
+    content: '✓';
+    color: var(--color-accent);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .tier-features li.disabled {
+    opacity: 0.3;
+    text-decoration: none;
+  }
+  .tier-features li.disabled::before { content: '—'; color: #ccc; }
+
+  .tier-btn {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    border-radius: var(--radius-pill);
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: all var(--transition);
+    border: 1.5px solid var(--color-primary);
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .tier-btn:hover { opacity: 0.85; }
+  .tier-btn.outline {
+    background: transparent;
+    color: var(--color-primary);
+  }
+  .tier-btn.outline:hover { background: var(--color-primary); color: #fff; }
+
+  /* How it works */
+  .how-section {
+    max-width: 720px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+  }
+  .how-section h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 40px;
+  }
+  .how-steps { display: flex; flex-direction: column; gap: 20px; }
+  .how-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .how-step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .how-step-text { font-size: 15px; color: #555; line-height: 1.6; padding-top: 6px; }
+  .how-step-text strong { color: var(--color-primary); }
+
+  /* CTA strip */
+  .cta-strip {
+    background: var(--color-light);
+    text-align: center;
+    padding: 60px 40px;
+    border-radius: var(--radius-lg);
+    max-width: 1080px;
+    margin: 0 40px 80px;
+  }
+  .cta-strip h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .cta-strip p { font-size: 15px; color: #777; margin-bottom: 24px; }
+  .cta-strip a { color: var(--color-accent); font-weight: 600; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px 0;
+    font-size: 13px;
+    color: #999;
+  }
+  .footer a { color: #666; text-decoration: none; }
+  .footer a:hover { color: var(--color-primary); }
+
+  @media (max-width: 768px) {
+    .pricing-grid { flex-direction: column; }
+    .pricing-hero h1 { font-size: 36px; }
+    .container, .pricing-grid, .cta-strip { padding-left: 20px; padding-right: 20px; }
+    .cta-strip { margin-left: 20px; margin-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">AI·导航</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">首页</a>
+    <a href="sponsor.html" class="nav-link active">赞助</a>
+  </div>
+</nav>
+
+<section class="pricing-hero">
+  <h1>让你的 AI 工具<br>被更多人看见</h1>
+  <p>gorai.cn 是专注 AI 工具的精选导航站，面向开发者、产品经理和 AI 爱好者。赞助位数量有限，先到先得。</p>
+</section>
+
+<div class="pricing-grid">
+  <!-- Basic -->
+  <div class="pricing-card">
+    <div class="tier-name">基础</div>
+    <div class="tier-subtitle">列表页收录 + 标准曝光</div>
+    <div class="tier-price">¥49<sub>/月</sub></div>
+    <div class="tier-cycle">或 ¥399/年（省 ¥189）</div>
+    <ul class="tier-features">
+      <li>永久收录到工具列表</li>
+      <li>专属 Logo + 描述展示</li>
+      <li>分类筛选页可见</li>
+      <li class="disabled">赞助推荐区置顶</li>
+      <li class="disabled">首页横幅曝光</li>
+      <li class="disabled">数据分析报告</li>
+    </ul>
+    <a href="#" class="tier-btn outline">立即购买</a>
+  </div>
+
+  <!-- Premium (recommended) -->
+  <div class="pricing-card featured">
+    <div class="tier-name">推荐</div>
+    <div class="tier-subtitle">赞助推荐区置顶 · 最受欢迎</div>
+    <div class="tier-price">¥149<sub>/月</sub></div>
+    <div class="tier-cycle">或 ¥999/年（省 ¥789）</div>
+    <ul class="tier-features">
+      <li>基础套餐全部权益</li>
+      <li>「赞助推荐」区置顶展示</li>
+      <li>独立卡片 + 赞助标签</li>
+      <li>优先排在列表前列</li>
+      <li class="disabled">首页横幅曝光</li>
+      <li class="disabled">数据分析报告</li>
+    </ul>
+    <a href="#" class="tier-btn">立即购买</a>
+  </div>
+
+  <!-- Flagship -->
+  <div class="pricing-card">
+    <div class="tier-name">旗舰</div>
+    <div class="tier-subtitle">首页横幅 · 最大曝光</div>
+    <div class="tier-price">¥299<sub>/月</sub></div>
+    <div class="tier-cycle">或 ¥1999/年（省 ¥1589）</div>
+    <ul class="tier-features">
+      <li>推荐套餐全部权益</li>
+      <li>首页顶部横幅独占位</li>
+      <li>独立落地页（含截图+文案）</li>
+      <li>数据分析月度报告</li>
+      <li>续费优先权</li>
+      <li>仅 2 个席位</li>
+    </ul>
+    <a href="#" class="tier-btn outline">立即购买</a>
+  </div>
+</div>
+
+<section class="how-section">
+  <h2>购买流程</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-step-num">1</div>
+      <div class="how-step-text"><strong>选择套餐</strong> — 上方选好套餐，点击「立即购买」跳转到面包多完成支付。</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">2</div>
+      <div class="how-step-text"><strong>完成支付</strong> — 面包多支持微信 / 支付宝，付款后自动通知我们。</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">3</div>
+      <div class="how-step-text"><strong>提交素材</strong> — 我们会通过你留下的联系方式发送素材收集链接，填写工具名称、Logo、链接和描述。</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">4</div>
+      <div class="how-step-text"><strong>24 小时内上线</strong> — 审核通过后，你的工具会在下一个工作日出现在赞助位。</div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <h3>有疑问？</h3>
+  <p>联系邮箱 <a href="mailto:hi@gorai.cn">hi@gorai.cn</a>，或直接在我们的飞书社群沟通。</p>
+</div>
+
+<footer class="footer container">
+  AI·导航 © 2026 · 人工精选，拒绝 AI 生成垃圾 · <a href="index.html">首页</a> · <a href="sponsor.html">赞助</a>
+</footer>
+
+</body>
+</html>

@@ -71,6 +71,20 @@
   .nav-cta:hover {
     border-color: var(--color-primary);
   }
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .nav-link {
+    font-size: 14px;
+    color: var(--color-primary);
+    text-decoration: none;
+    opacity: 0.5;
+    transition: opacity var(--transition);
+  }
+  .nav-link:hover { opacity: 1; }
+  .nav-link.active { opacity: 1; font-weight: 600; }
 
   /* ========== Hero ========== */
   .hero {
@@ -213,6 +227,22 @@
     background: var(--color-light);
     color: var(--color-primary);
     opacity: 0.6;
+  }
+  .featured-badge.flagship-badge {
+    background: var(--color-accent);
+    color: #fff;
+    opacity: 1;
+  }
+  .featured-card.flagship {
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 16px rgba(99,102,241,0.1);
+  }
+  .featured-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    object-fit: contain;
+    margin-bottom: 12px;
   }
   .featured-name {
     font-size: 36px;
@@ -684,8 +714,12 @@
 
 <!-- Nav -->
 <nav class="nav">
-  <div class="nav-logo">AI·导航</div>
-  <button class="nav-cta" id="nav-submit-btn">提交工具</button>
+  <a href="index.html" class="nav-logo" style="text-decoration:none;">AI·导航</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link active">首页</a>
+    <a href="sponsor.html" class="nav-link">赞助</a>
+    <button class="nav-cta" id="nav-submit-btn">提交工具</button>
+  </div>
 </nav>
 
 <!-- Hero -->
@@ -817,9 +851,9 @@ const tools = [
   { name: "豆包", company: "字节跳动", desc: "国民级AI助手，集成抖音生态，对话自然流畅，适合日常使用和内容创作。", category: "llm", pricing: "free", url: "https://www.doubao.com" },
   { name: "文心一言", company: "百度", desc: "百度出品，与百度搜索生态打通，文生图能力和百科知识有独特优势。", category: "llm", pricing: "free", url: "https://yiyan.baidu.com" },
   { name: "智谱清言", company: "智谱AI", desc: "GLM系列模型，清华系团队，代码和逻辑推理在开源模型中领先。", category: "llm", pricing: "free", url: "https://chatglm.cn" },
-  { name: "GPT-4o", company: "OpenAI", desc: "全球最强多模态模型，文本、图像、语音理解一体化，生态最完善。", category: "llm", pricing: "paid", sponsored: true, url: "https://chat.openai.com" },
+  { name: "GPT-4o", company: "OpenAI", desc: "全球最强多模态模型，文本、图像、语音理解一体化，生态最完善。", category: "llm", pricing: "paid", url: "https://chat.openai.com" },
   { name: "Claude", company: "Anthropic", desc: "长文本理解和安全性领先，200K上下文窗口，适合深度分析和代码审查。", category: "llm", pricing: "paid", url: "https://claude.ai" },
-  { name: "Midjourney", company: "Midjourney Inc.", desc: "AI绘画天花板，艺术感最强，v6版本写实和创意能力再次突破想象。", category: "image", pricing: "paid", sponsored: true, url: "https://www.midjourney.com" },
+  { name: "Midjourney", company: "Midjourney Inc.", desc: "AI绘画天花板，艺术感最强，v6版本写实和创意能力再次突破想象。", category: "image", pricing: "paid", url: "https://www.midjourney.com" },
   { name: "即梦", company: "字节跳动", desc: "国产AI绘画工具，出图质量高且审美在线，支持文生图和图生图。", category: "image", pricing: "free", url: "https://jimeng.jianying.com" },
   { name: "可灵", company: "快手", desc: "AI图片和视频生成双修，图生视频能力突出，支持多种风格。", category: "image", pricing: "free", url: "https://kling.kuaishou.com" },
   { name: "Stable Diffusion", company: "Stability AI", desc: "开源AI绘画之王，社区生态最丰富，可本地部署，自由度最高。", category: "image", pricing: "free", url: "https://stablediffusionweb.com" },
@@ -835,12 +869,55 @@ const tools = [
   { name: "讯飞听见", company: "科大讯飞", desc: "中文语音转文字最强，实时字幕、会议记录、录音整理一键搞定。", category: "office", pricing: "paid", url: "https://www.iflyrec.com" },
   { name: "腾讯文档AI", company: "腾讯", desc: "与微信生态打通，AI辅助写作和表格数据处理，协作办公利器。", category: "office", pricing: "free", url: "https://docs.qq.com" },
   { name: "GitHub Copilot", company: "GitHub", desc: "AI编程助手鼻祖，VSCode原生集成，代码补全和Chat模式覆盖全流程。", category: "code", pricing: "paid", url: "https://github.com/features/copilot" },
-  { name: "Cursor", company: "Anysphere", desc: "AI-first代码编辑器，基于VSCode但更激进，Composer模式可整文件重构。", category: "code", pricing: "paid", sponsored: true, url: "https://cursor.sh" },
+  { name: "Cursor", company: "Anysphere", desc: "AI-first代码编辑器，基于VSCode但更激进，Composer模式可整文件重构。", category: "code", pricing: "paid", url: "https://cursor.sh" },
   { name: "通义灵码", company: "阿里巴巴", desc: "国产AI编程插件，免费且支持中文注释和需求理解，新手友好。", category: "code", pricing: "free", url: "https://tongyi.aliyun.com/lingma" },
   { name: "Windsurf", company: "Codeium", desc: "AI IDE新秀，Cascade模式可自主分析代码库上下文，比Copilot更智能。", category: "code", pricing: "paid", url: "https://codeium.com/windsurf" },
   { name: "秘塔AI搜索", company: "秘塔科技", desc: "国产AI搜索引擎，无广告直达答案，学术搜索和深度分析能力突出。", category: "search", pricing: "free", url: "https://metaso.cn" },
   { name: "Perplexity", company: "Perplexity AI", desc: "AI搜索全球标杆，答案带完整引用来源，Pro版可选Claude/GPT模型。", category: "search", pricing: "free", url: "https://www.perplexity.ai" },
   { name: "天工AI搜索", company: "昆仑万维", desc: "国产多模态AI搜索，支持图文视频搜索，研究模式和速读模式切换。", category: "search", pricing: "free", url: "https://www.tiangong.cn" },
+];
+
+// === Sponsor Data ===
+const sponsors = [
+  {
+    id: "sp_001",
+    name: "GPT-4o",
+    company: "OpenAI",
+    logo: "",
+    url: "https://chat.openai.com",
+    description: "全球最强多模态模型，文本、图像、语音理解一体化，生态最完善。",
+    tier: "flagship",
+    status: "active",
+    startDate: "2026-06-01",
+    expireDate: "2026-09-01",
+    position: 1
+  },
+  {
+    id: "sp_002",
+    name: "Midjourney",
+    company: "Midjourney Inc.",
+    logo: "",
+    url: "https://www.midjourney.com",
+    description: "AI绘画天花板，艺术感最强，v6版本写实和创意能力再次突破想象。",
+    tier: "premium",
+    status: "active",
+    startDate: "2026-06-15",
+    expireDate: "2026-09-15",
+    position: 2
+  },
+  {
+    id: "sp_003",
+    name: "Cursor",
+    company: "Anysphere",
+    logo: "",
+    url: "https://cursor.sh",
+    description: "AI-first代码编辑器，基于VSCode但更激进，Composer模式可整文件重构。",
+    tier: "premium",
+    status: "active",
+    startDate: "2026-07-01",
+    expireDate: "2026-10-01",
+    position: 3
+  }
 ];
 
 const categoryNames = {
@@ -855,17 +932,28 @@ const categoryNames = {
 // === Render ===
 function renderFeatured() {
   const container = document.getElementById('featured-cards');
-  const sponsored = tools.filter(t => t.sponsored);
-  container.innerHTML = sponsored.map(t => `
-    <a href="${t.url}" target="_blank" class="featured-card">
-      <span class="featured-badge">赞助</span>
-      <div class="featured-name">${t.name}</div>
-      <div class="featured-company">${t.company}</div>
-      <div class="featured-desc">${t.desc}</div>
-      <div class="featured-meta">
-        <span class="tag ${t.pricing === 'free' ? 'tag-free' : 'tag-paid'}">${t.pricing === 'free' ? '免费' : '付费'}</span>
-        <span class="featured-category">${categoryNames[t.category]}</span>
-      </div>
+  const active = sponsors
+    .filter(s => s.status === 'active' && new Date(s.expireDate) > new Date())
+    .sort((a, b) => a.position - b.position);
+
+  if (active.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const tierBadge = {
+    flagship: '旗舰赞助',
+    premium: '赞助',
+    basic: '基础'
+  };
+
+  container.innerHTML = active.map(s => `
+    <a href="${s.url}" target="_blank" class="featured-card${s.tier === 'flagship' ? ' flagship' : ''}">
+      <span class="featured-badge${s.tier === 'flagship' ? ' flagship-badge' : ''}">${tierBadge[s.tier]}</span>
+      ${s.logo ? `<img src="${s.logo}" alt="${s.name}" class="featured-logo">` : ''}
+      <div class="featured-name">${s.name}</div>
+      <div class="featured-company">${s.company}</div>
+      <div class="featured-desc">${s.description}</div>
     </a>
   `).join('');
 }
