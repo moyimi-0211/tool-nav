@@ -505,23 +505,64 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
   }
-  .ghost-body {
-    width: 62px; height: 78px;
+  /* 高瘦幽灵 — 窄身修长 */
+  .ghost.tall-thin .ghost-body {
+    width: 48px; height: 100px;
+    background: #f0f0f0;
+    border-radius: 50% 50% 0 0 / 38% 38% 0 0;
+    position: relative;
+    opacity: 0.88;
+  }
+  .ghost.tall-thin .ghost-eye {
+    position: absolute;
+    width: 11px; height: 13px;
+    background: #1a1a1a;
+    border-radius: 50%;
+    top: 30px;
+    transition: transform 0.12s ease-out;
+  }
+  .ghost.tall-thin .ghost-eye.left  { left: 12px; }
+  .ghost.tall-thin .ghost-eye.right { right: 12px; }
+
+  /* 矮宽幽灵 — 扁平憨态 */
+  .ghost.short-wide .ghost-body {
+    width: 82px; height: 62px;
+    background: #f0f0f0;
+    border-radius: 50% 50% 0 0 / 48% 48% 0 0;
+    position: relative;
+    opacity: 0.88;
+  }
+  .ghost.short-wide .ghost-eye {
+    position: absolute;
+    width: 11px; height: 12px;
+    background: #1a1a1a;
+    border-radius: 50%;
+    top: 18px;
+    transition: transform 0.12s ease-out;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .ghost.short-wide .ghost-eye.left  { left: calc(50% - 18px); }
+  .ghost.short-wide .ghost-eye.right { left: calc(50% + 7px); }
+
+  /* 矮瘦幽灵 — 小巧灵精 */
+  .ghost.short-thin .ghost-body {
+    width: 42px; height: 56px;
     background: #f0f0f0;
     border-radius: 50% 50% 0 0 / 42% 42% 0 0;
     position: relative;
-    opacity: 0.85;
+    opacity: 0.88;
   }
-  .ghost-eye {
+  .ghost.short-thin .ghost-eye {
     position: absolute;
-    width: 10px; height: 11px;
+    width: 8px; height: 9px;
     background: #1a1a1a;
     border-radius: 50%;
-    top: 24px;
+    top: 16px;
     transition: transform 0.12s ease-out;
   }
-  .ghost-eye.left  { left: 17px; }
-  .ghost-eye.right { right: 17px; }
+  .ghost.short-thin .ghost-eye.left  { left: 10px; }
+  .ghost.short-thin .ghost-eye.right { right: 10px; }
 
   /* ========== Screenshot Scroll ========== */
   .scroll-section { padding: 32px 0 48px; overflow: hidden; position: relative; }
@@ -921,20 +962,19 @@ document.getElementById('form-submit-btn').addEventListener('click', () => {
 // === Ghosts ===
 const ghostContainer = document.getElementById('hero-ghosts');
 const ghostPositions = [
-  { left: '6%', top: '22%', dur: '6s', delay: '0s', scale: 1 },
-  { left: '12%', top: '62%', dur: '7s', delay: '1.2s', scale: 0.9 },
-  { left: '78%', top: '18%', dur: '5.5s', delay: '0.6s', scale: 1.05 },
-  { left: '84%', top: '55%', dur: '6.5s', delay: '1.8s', scale: 0.95 },
-  { left: '92%', top: '30%', dur: '5s', delay: '3s', scale: 0.85 },
-  { left: '35%', top: '80%', dur: '7.5s', delay: '0.3s', scale: 0.8 },
-  { left: '55%', top: '75%', dur: '5.8s', delay: '2s', scale: 0.9 },
-  { left: '4%', top: '42%', dur: '4.8s', delay: '2.5s', scale: 0.75 },
+  // 左侧 — 围绕标题左上方和左下方
+  { left: '5%',  top: '15%', dur: '6s',  delay: '0s',   shape: 'tall-thin' },   // 高瘦 ①
+  { left: '10%', top: '50%', dur: '7s',  delay: '1.2s', shape: 'tall-thin' },   // 高瘦 ②
+  { left: '18%', top: '70%', dur: '6.5s', delay: '0.8s', shape: 'short-wide' }, // 矮宽
+  // 右侧 — 围绕标题右上方和右下方
+  { left: '78%', top: '22%', dur: '5.5s', delay: '0.4s', shape: 'tall-thin' },  // 高瘦 ③
+  { left: '88%', top: '60%', dur: '6s',  delay: '1.5s', shape: 'short-thin' },  // 矮瘦
 ];
 
 const ghosts = ghostPositions.map(pos => {
   const el = document.createElement('div');
-  el.className = 'ghost';
-  el.style.cssText = `left:${pos.left};top:${pos.top};--float-dur:${pos.dur};--float-delay:${pos.delay};transform:scale(${pos.scale})`;
+  el.className = `ghost ${pos.shape}`;
+  el.style.cssText = `left:${pos.left};top:${pos.top};--float-dur:${pos.dur};--float-delay:${pos.delay}`;
   el.innerHTML = `
     <div class="ghost-body">
       <div class="ghost-eye left"></div>
