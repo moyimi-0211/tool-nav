@@ -463,6 +463,68 @@
     opacity: 0.7;
   }
 
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(45,42,50,0.4); backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--color-bg); border-radius: var(--radius-lg);
+    width: 90%; max-width: 480px; padding: 48px 40px 40px;
+    position: relative; box-shadow: 0 24px 64px rgba(45,42,50,0.12);
+    animation: modalIn 0.25s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 20px;
+    background: none; border: none; font-size: 20px; cursor: pointer;
+    color: var(--color-primary); opacity: 0.3; padding: 4px 8px; line-height: 1;
+    font-family: inherit; transition: var(--transition);
+  }
+  .modal-close:hover { opacity: 0.7; }
+  .modal h3 {
+    font-size: 22px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.5px;
+  }
+  .modal-subtitle { font-size: 14px; opacity: 0.5; margin-bottom: 28px; line-height: 1.6; }
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block; font-size: 12px; font-weight: 500; opacity: 0.5;
+    margin-bottom: 6px; letter-spacing: 0.5px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 12px 16px; border-radius: var(--radius-sm);
+    border: 1px solid var(--color-light); font-size: 14px;
+    font-family: inherit; color: var(--color-primary);
+    background: var(--color-bg); transition: var(--transition);
+    outline: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--color-primary); }
+  .form-textarea { min-height: 80px; resize: vertical; }
+  .form-select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%232D2A32' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+  .form-submit {
+    width: 100%; padding: 14px; border-radius: var(--radius-pill); font-size: 15px;
+    font-weight: 600; background: var(--color-primary); color: var(--color-bg);
+    border: none; cursor: pointer; font-family: inherit; margin-top: 8px;
+    transition: var(--transition);
+  }
+  .form-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(45,42,50,0.15); }
+  .form-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .form-hint {
+    font-size: 12px; opacity: 0.35; text-align: center; margin-top: 16px; line-height: 1.6;
+  }
+  .modal-success { display: none; text-align: center; padding: 20px 0; }
+  .modal-success.show { display: block; }
+  .modal-success-icon { font-size: 40px; margin-bottom: 12px; }
+  .modal-success h3 { margin-bottom: 8px; }
+  .modal-success p { font-size: 14px; opacity: 0.5; line-height: 1.7; }
+  .modal-form.hide { display: none; }
+
   /* Ghosts */
   .hero-ghosts { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
   .ghost {
@@ -656,7 +718,7 @@
   <div class="nav-links">
     <a href="index.html" class="nav-link active">首页</a>
     <a href="sponsor.html" class="nav-link">赞助</a>
-    <a href="#" class="nav-cta" id="nav-survey-link" target="_blank">提交工具</a>
+    <button class="nav-cta" id="nav-submit-btn">提交工具</button>
   </div>
 </nav>
 
@@ -726,7 +788,7 @@
 <section class="cta-section container" id="cta">
   <h2>你的 AI 工具还没被收录？</h2>
   <p>免费提交，审核通过后上线。想要置顶曝光？赞助位开放中。</p>
-  <a href="#" class="cta-btn" id="survey-link" target="_blank">提交工具 →</a>
+  <button class="cta-btn" id="cta-submit-btn">提交工具 →</button>
 </section>
 
 <!-- Footer -->
@@ -734,7 +796,52 @@
   AI·导航 © 2026 · 人工精选，拒绝 AI 生成垃圾 · <a href="#">关于我们</a>
 </footer>
 
-<!-- Footer -->
+<!-- Submit Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <div class="modal-form" id="modal-form">
+      <h3>提交 AI 工具</h3>
+      <p class="modal-subtitle">填写以下信息，审核通过后上线。赞助置顶请备注。</p>
+      <div class="form-group">
+        <label class="form-label">工具名称 *</label>
+        <input class="form-input" id="form-name" placeholder="例如：DeepSeek" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">官网链接 *</label>
+        <input class="form-input" id="form-url" placeholder="https://…" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">分类</label>
+        <select class="form-select" id="form-category">
+          <option value="">请选择</option>
+          <option value="llm">大语言模型</option>
+          <option value="image">AI 绘图</option>
+          <option value="video">AI 视频</option>
+          <option value="office">AI 办公</option>
+          <option value="code">AI 编程</option>
+          <option value="search">AI 搜索</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">一句话介绍 *</label>
+        <textarea class="form-textarea" id="form-desc" placeholder="用一句话描述这个工具的核心亮点…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">你的联系方式</label>
+        <input class="form-input" id="form-contact" placeholder="微信 / 邮箱（方便通知审核结果）" autocomplete="off">
+      </div>
+      <button class="form-submit" id="form-submit-btn">提交审核</button>
+      <p class="form-hint">审核通常 24 小时内完成</p>
+    </div>
+    <div class="modal-success" id="modal-success">
+      <div class="modal-success-icon">✅</div>
+      <h3>提交成功</h3>
+      <p>我们会在 24 小时内审核，结果将通过你留下的联系方式通知。</p>
+    </div>
+  </div>
+</div>
+
 <script>
 // === Tool Data ===
 const tools = [
@@ -885,13 +992,89 @@ document.getElementById('filter-bar').addEventListener('click', (e) => {
   }
 });
 
-// === Feishu Survey ===
-// 替换下方的占位链接为你创建的飞书问卷分享链接
-(function() {
-  var SURVEY_URL = 'https://zcnd76lxs9ev.feishu.cn/share/base/form/shrcn27VXPeG7YsLIKbVOdnkxEn';
-  var links = document.querySelectorAll('#nav-survey-link, #survey-link');
-  links.forEach(function(link) { link.href = SURVEY_URL; });
-})();
+// === Init ===
+// Modal
+const modalOverlay = document.getElementById('modal-overlay');
+const modalForm = document.getElementById('modal-form');
+const modalSuccess = document.getElementById('modal-success');
+
+function openModal() {
+  modalOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  modalForm.classList.remove('hide');
+  modalSuccess.classList.remove('show');
+  document.getElementById('form-name').value = '';
+  document.getElementById('form-url').value = '';
+  document.getElementById('form-category').value = '';
+  document.getElementById('form-desc').value = '';
+  document.getElementById('form-contact').value = '';
+  document.getElementById('form-submit-btn').disabled = false;
+  document.getElementById('form-submit-btn').textContent = '提交审核';
+  setTimeout(() => document.getElementById('form-name').focus(), 200);
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('nav-submit-btn').addEventListener('click', openModal);
+document.getElementById('cta-submit-btn').addEventListener('click', openModal);
+document.getElementById('modal-close').addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+});
+
+document.getElementById('form-submit-btn').addEventListener('click', () => {
+  const name = document.getElementById('form-name').value.trim();
+  const url = document.getElementById('form-url').value.trim();
+  const desc = document.getElementById('form-desc').value.trim();
+
+  if (!name) { document.getElementById('form-name').focus(); return; }
+  if (!url || !/^https?:\/\/.+/.test(url)) { document.getElementById('form-url').focus(); return; }
+  if (!desc) { document.getElementById('form-desc').focus(); return; }
+
+  const btn = document.getElementById('form-submit-btn');
+  btn.disabled = true;
+  btn.textContent = '提交中…';
+
+  const category = document.getElementById('form-category').value || '未选择';
+  const contact = document.getElementById('form-contact').value.trim() || '未填写';
+
+  // 飞书自定义机器人 Webhook（在飞书群 → 群设置 → 群机器人 → 添加自定义机器人 → 复制地址）
+  const FEISHU_WEBHOOK = 'https://open.feishu.cn/open-apis/bot/v2/hook/1a435135-8663-439e-bba9-b1ee635fe96f';
+
+  const payload = JSON.stringify({
+    msg_type: 'text',
+    content: {
+      text: [
+        '🔔 新工具提交',
+        '工具名称：' + name,
+        '工具链接：' + url,
+        '分类：' + category,
+        '一句话介绍：' + desc,
+        '联系方式：' + contact,
+        '——',
+        '提交时间：' + new Date().toLocaleString('zh-CN', { hour12: false })
+      ].join('\n')
+    }
+  });
+
+  // sendBeacon 绕过 CORS 限制，浏览器后台可靠投递
+  var blob = new Blob([payload], { type: 'application/json; charset=utf-8' });
+  var ok = navigator.sendBeacon(FEISHU_WEBHOOK, blob);
+
+  if (ok) {
+    modalForm.classList.add('hide');
+    modalSuccess.classList.add('show');
+  } else {
+    btn.disabled = false;
+    btn.textContent = '提交失败，请重试';
+  }
+});
 
 // === Ghosts ===
 const ghostContainer = document.getElementById('hero-ghosts');
