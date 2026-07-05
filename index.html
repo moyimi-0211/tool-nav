@@ -511,6 +511,7 @@
     width: 100%; padding: 14px; border-radius: var(--radius-pill); font-size: 15px;
     font-weight: 600; background: var(--color-primary); color: var(--color-bg);
     border: none; cursor: pointer; font-family: inherit; margin-top: 8px;
+    text-decoration: none; display: block; text-align: center;
     transition: var(--transition);
   }
   .form-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(45,42,50,0.15); }
@@ -802,42 +803,9 @@
     <button class="modal-close" id="modal-close">&times;</button>
     <div class="modal-form" id="modal-form">
       <h3>提交 AI 工具</h3>
-      <p class="modal-subtitle">填写以下信息，审核通过后上线。赞助置顶请备注。</p>
-      <div class="form-group">
-        <label class="form-label">工具名称 *</label>
-        <input class="form-input" id="form-name" placeholder="例如：DeepSeek" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label class="form-label">官网链接 *</label>
-        <input class="form-input" id="form-url" placeholder="https://…" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label class="form-label">分类</label>
-        <select class="form-select" id="form-category">
-          <option value="">请选择</option>
-          <option value="llm">大语言模型</option>
-          <option value="image">AI 绘图</option>
-          <option value="video">AI 视频</option>
-          <option value="office">AI 办公</option>
-          <option value="code">AI 编程</option>
-          <option value="search">AI 搜索</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">一句话介绍 *</label>
-        <textarea class="form-textarea" id="form-desc" placeholder="用一句话描述这个工具的核心亮点…"></textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label">你的联系方式</label>
-        <input class="form-input" id="form-contact" placeholder="微信 / 邮箱（方便通知审核结果）" autocomplete="off">
-      </div>
-      <button class="form-submit" id="form-submit-btn">提交审核</button>
-      <p class="form-hint">审核通常 24 小时内完成</p>
-    </div>
-    <div class="modal-success" id="modal-success">
-      <div class="modal-success-icon">✅</div>
-      <h3>提交成功</h3>
-      <p>我们会在 24 小时内审核，结果将通过你留下的联系方式通知。</p>
+      <p class="modal-subtitle">我们改用飞书问卷收集工具信息，数据自动汇总到多维表格，不再丢消息。</p>
+      <a href="#" class="form-submit" id="form-survey-link" target="_blank">打开提交问卷 →</a>
+      <p class="form-hint">点击后在新标签页打开飞书问卷</p>
     </div>
   </div>
 </div>
@@ -995,22 +963,10 @@ document.getElementById('filter-bar').addEventListener('click', (e) => {
 // === Init ===
 // Modal
 const modalOverlay = document.getElementById('modal-overlay');
-const modalForm = document.getElementById('modal-form');
-const modalSuccess = document.getElementById('modal-success');
 
 function openModal() {
   modalOverlay.classList.add('open');
   document.body.style.overflow = 'hidden';
-  modalForm.classList.remove('hide');
-  modalSuccess.classList.remove('show');
-  document.getElementById('form-name').value = '';
-  document.getElementById('form-url').value = '';
-  document.getElementById('form-category').value = '';
-  document.getElementById('form-desc').value = '';
-  document.getElementById('form-contact').value = '';
-  document.getElementById('form-submit-btn').disabled = false;
-  document.getElementById('form-submit-btn').textContent = '提交审核';
-  setTimeout(() => document.getElementById('form-name').focus(), 200);
 }
 
 function closeModal() {
@@ -1028,53 +984,12 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
 });
 
-document.getElementById('form-submit-btn').addEventListener('click', () => {
-  const name = document.getElementById('form-name').value.trim();
-  const url = document.getElementById('form-url').value.trim();
-  const desc = document.getElementById('form-desc').value.trim();
-
-  if (!name) { document.getElementById('form-name').focus(); return; }
-  if (!url || !/^https?:\/\/.+/.test(url)) { document.getElementById('form-url').focus(); return; }
-  if (!desc) { document.getElementById('form-desc').focus(); return; }
-
-  const btn = document.getElementById('form-submit-btn');
-  btn.disabled = true;
-  btn.textContent = '提交中…';
-
-  const category = document.getElementById('form-category').value || '未选择';
-  const contact = document.getElementById('form-contact').value.trim() || '未填写';
-
-  // 飞书自定义机器人 Webhook（在飞书群 → 群设置 → 群机器人 → 添加自定义机器人 → 复制地址）
-  const FEISHU_WEBHOOK = 'https://open.feishu.cn/open-apis/bot/v2/hook/1a435135-8663-439e-bba9-b1ee635fe96f';
-
-  const payload = JSON.stringify({
-    msg_type: 'text',
-    content: {
-      text: [
-        '🔔 新工具提交',
-        '工具名称：' + name,
-        '工具链接：' + url,
-        '分类：' + category,
-        '一句话介绍：' + desc,
-        '联系方式：' + contact,
-        '——',
-        '提交时间：' + new Date().toLocaleString('zh-CN', { hour12: false })
-      ].join('\n')
-    }
-  });
-
-  // sendBeacon 绕过 CORS 限制，浏览器后台可靠投递
-  var blob = new Blob([payload], { type: 'application/json; charset=utf-8' });
-  var ok = navigator.sendBeacon(FEISHU_WEBHOOK, blob);
-
-  if (ok) {
-    modalForm.classList.add('hide');
-    modalSuccess.classList.add('show');
-  } else {
-    btn.disabled = false;
-    btn.textContent = '提交失败，请重试';
-  }
-});
+// Feishu Survey link
+(function() {
+  var SURVEY_URL = 'https://zcnd76lxs9ev.feishu.cn/share/base/form/shrcn27VXPeG7YsLIKbVOdnkxEn';
+  var link = document.getElementById('form-survey-link');
+  if (link) link.href = SURVEY_URL;
+})();
 
 // === Ghosts ===
 const ghostContainer = document.getElementById('hero-ghosts');
