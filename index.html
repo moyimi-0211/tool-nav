@@ -962,13 +962,13 @@ document.getElementById('form-submit-btn').addEventListener('click', () => {
 // === Ghosts ===
 const ghostContainer = document.getElementById('hero-ghosts');
 const ghostPositions = [
-  // 左侧 — 围绕标题左上方和左下方
-  { left: '5%',  top: '15%', dur: '6s',  delay: '0s',   shape: 'tall-thin' },   // 高瘦 ①
-  { left: '10%', top: '50%', dur: '7s',  delay: '1.2s', shape: 'tall-thin' },   // 高瘦 ②
-  { left: '18%', top: '70%', dur: '6.5s', delay: '0.8s', shape: 'short-wide' }, // 矮宽
-  // 右侧 — 围绕标题右上方和右下方
-  { left: '78%', top: '22%', dur: '5.5s', delay: '0.4s', shape: 'tall-thin' },  // 高瘦 ③
-  { left: '88%', top: '60%', dur: '6s',  delay: '1.5s', shape: 'short-thin' },  // 矮瘦
+  // 左侧 — 更靠近标题
+  { left: '18%', top: '12%', dur: '6s',  delay: '0s',   shape: 'tall-thin' },   // 高瘦 ①
+  { left: '22%', top: '48%', dur: '7s',  delay: '1.2s', shape: 'tall-thin' },   // 高瘦 ②
+  { left: '25%', top: '72%', dur: '6.5s', delay: '0.8s', shape: 'short-wide' }, // 矮宽
+  // 右侧 — 更靠近标题
+  { left: '68%', top: '18%', dur: '5.5s', delay: '0.4s', shape: 'tall-thin' },  // 高瘦 ③
+  { left: '72%', top: '62%', dur: '6s',  delay: '1.5s', shape: 'short-thin' },  // 矮瘦
 ];
 
 const ghosts = ghostPositions.map(pos => {
